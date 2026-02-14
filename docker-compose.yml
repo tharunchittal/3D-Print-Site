@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: 3d-print-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - ADMIN_PASSWORD=admin123
+      - NODE_ENV=production
+      - JWT_SECRET=your_jwt_secret_key_here
+    volumes:
+      - ./backend/uploads:/app/uploads
+      - ./backend/data.json:/app/data.json
+    networks:
+      - 3d-print-network
+
+  frontend:
+    build: ./frontend
+    container_name: 3d-print-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - 3d-print-network
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+
+  admin:
+    build: ./admin
+    container_name: 3d-print-admin
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend
+    networks:
+      - 3d-print-network
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+
+networks:
+  3d-print-network:
+    driver: bridge
+
+volumes:
+  uploads:

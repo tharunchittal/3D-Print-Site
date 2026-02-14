@@ -1,0 +1,32 @@
+{
+  "name": "3d-print-site",
+  "version": "1.0.0",
+  "description": "Complete file upload platform with client frontend, backend, and admin dashboard",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend && npm install --prefix admin",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:admin\"",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend start",
+    "dev:admin": "npm --prefix admin start",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build && npm --prefix admin run build",
+    "build:backend": "npm --prefix backend run build",
+    "build:frontend": "npm --prefix frontend run build",
+    "build:admin": "npm --prefix admin run build",
+    "start:all": "concurrently \"npm --prefix backend start\" \"npm --prefix frontend start\" \"npm --prefix admin start\"",
+    "start:backend": "npm --prefix backend start",
+    "start:frontend": "npm --prefix frontend start",
+    "start:admin": "npm --prefix admin start"
+  },
+  "keywords": [
+    "3d-print",
+    "file-upload",
+    "file-management",
+    "admin-dashboard"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
