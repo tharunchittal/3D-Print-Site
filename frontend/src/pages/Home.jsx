@@ -7,6 +7,8 @@ function Home() {
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [purpose, setPurpose] = useState('');
   const navigate = useNavigate();
 
   const handleFileChange = (e) => {
@@ -28,6 +30,8 @@ function Home() {
 
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('customerName', customerName);
+    formData.append('purpose', purpose);
 
     try {
       const response = await axios.post(
@@ -42,6 +46,8 @@ function Home() {
 
       setMessage('File uploaded successfully! Please wait for admin approval.');
       setFile(null);
+      setCustomerName('');
+      setPurpose('');
       setTimeout(() => {
         navigate('/download');
       }, 2000);
@@ -116,6 +122,34 @@ function Home() {
               )}
             </div>
 
+            <div className="space-y-3">
+              <div>
+                <label className="block text-gray-700 font-bold mb-1">Your Name</label>
+                <input
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  disabled={uploading}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600"
+                  placeholder="Enter your full name"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-bold mb-1">Purpose of Print</label>
+                <input
+                  type="text"
+                  value={purpose}
+                  onChange={(e) => setPurpose(e.target.value)}
+                  disabled={uploading}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600"
+                  placeholder="e.g. prototype, replacement part, gift"
+                />
+              </div>
+            </div>
+
             {error && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                 <p className="text-red-700 text-sm">{error}</p>
@@ -147,8 +181,13 @@ function Home() {
               <li>✓ Your file is uploaded to our server</li>
               <li>✓ Admin reviews and approves it</li>
               <li>✓ Price is set by the admin</li>
-              <li>✓ Other users can download it</li>
+                <li>✓ Other users can download it</li>
             </ul>
+              <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
+                <p className="text-yellow-800 text-sm">
+                  Note: All payments must be made in cash, in person to Tharun Chittal.
+                </p>
+              </div>
           </div>
         </div>
       </div>

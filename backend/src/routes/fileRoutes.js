@@ -40,6 +40,9 @@ router.post('/upload', upload.single('file'), (req, res) => {
     filename: req.file.filename,
     size: req.file.size,
     uploadDate: new Date(),
+    customerName: req.body.customerName || null,
+    purpose: req.body.purpose || null,
+    paymentStatus: 'unpaid',
     price: null,
     downloadCount: 0,
     status: 'pending' // pending, approved

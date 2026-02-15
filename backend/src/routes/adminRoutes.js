@@ -66,6 +66,32 @@ router.put('/files/:id/approve', verifyAdminToken, (req, res) => {
   }
 });
 
+// Update payment status for a file (admin)
+router.put('/files/:id/payment', verifyAdminToken, (req, res) => {
+  const { paymentStatus } = req.body;
+
+  const allowed = ['unpaid', 'cash'];
+  if (!allowed.includes(paymentStatus)) {
+    return res.status(400).json({ error: 'Invalid payment status' });
+  }
+
+  try {
+    const data = readData();
+    const file = data.files.find(f => f.id === req.params.id);
+
+    if (!file) {
+      return res.status(404).json({ error: 'File not found' });
+    }
+
+    file.paymentStatus = paymentStatus;
+    writeData(data);
+
+    res.json({ message: 'Payment status updated', file });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update payment status' });
+  }
+});
+
 // Reject/Delete file
 router.delete('/files/:id', verifyAdminToken, (req, res) => {
   try {

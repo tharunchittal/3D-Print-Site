@@ -77,6 +77,22 @@ function Dashboard({ token, onLogout }) {
     }
   };
 
+  const handleUpdatePayment = async (fileId, paymentStatus) => {
+    try {
+      await axios.put(
+        `http://localhost:5000/api/admin/files/${fileId}/payment`,
+        { paymentStatus },
+        { headers }
+      );
+
+      setFiles(
+        files.map((f) => (f.id === fileId ? { ...f, paymentStatus } : f))
+      );
+    } catch (err) {
+      alert('Failed to update payment status');
+    }
+  };
+
   const handleDownload = async (fileId, originalName) => {
     try {
       const response = await axios.get(
@@ -185,9 +201,12 @@ function Dashboard({ token, onLogout }) {
               <thead className="bg-gray-700 text-gray-200">
                 <tr>
                   <th className="px-4 py-3 text-left">File Name</th>
+                  <th className="px-4 py-3 text-left">Customer</th>
+                  <th className="px-4 py-3 text-left">Purpose</th>
                   <th className="px-4 py-3 text-left">Size</th>
                   <th className="px-4 py-3 text-left">Status</th>
                   <th className="px-4 py-3 text-left">Price</th>
+                  <th className="px-4 py-3 text-left">Payment</th>
                   <th className="px-4 py-3 text-left">Downloads</th>
                   <th className="px-4 py-3 text-left">Uploaded</th>
                   <th className="px-4 py-3 text-center">Actions</th>
@@ -199,6 +218,8 @@ function Dashboard({ token, onLogout }) {
                     <td className="px-4 py-3 text-gray-300 max-w-xs truncate">
                       {file.originalName}
                     </td>
+                    <td className="px-4 py-3 text-gray-400">{file.customerName || '-'}</td>
+                    <td className="px-4 py-3 text-gray-400">{file.purpose || '-'}</td>
                     <td className="px-4 py-3 text-gray-400">
                       {(file.size / 1024 / 1024).toFixed(2)} MB
                     </td>
@@ -212,6 +233,20 @@ function Dashboard({ token, onLogout }) {
                       >
                         {file.status}
                       </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <select
+                          value={file.paymentStatus || 'unpaid'}
+                          onChange={(e) =>
+                            handleUpdatePayment(file.id, e.target.value)
+                          }
+                          className="px-2 py-1 bg-gray-700 text-white rounded border border-gray-600 text-sm"
+                        >
+                          <option value="unpaid">Unpaid</option>
+                          <option value="cash">Paid (Cash)</option>
+                        </select>
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       {editingId === file.id ? (

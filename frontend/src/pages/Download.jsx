@@ -121,6 +121,17 @@ function Download() {
 
                 <div className="space-y-3 mb-4 text-sm text-gray-600">
                   <div className="flex justify-between">
+                    <span className="font-medium">Status:</span>
+                    <span>
+                      {file.paymentStatus === 'cash' ? (
+                        <span className="text-green-600 font-bold">Paid (Cash)</span>
+                      ) : (
+                        <span className="text-red-600 font-bold">Unpaid</span>
+                      )}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between">
                     <span className="font-medium">Size:</span>
                     <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
                   </div>
