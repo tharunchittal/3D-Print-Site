@@ -1,5 +1,5 @@
 import express from 'express';
-import jwt from 'json-web-token';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -12,7 +12,7 @@ router.post('/admin-login', (req, res) => {
   
   if (password === process.env.ADMIN_PASSWORD) {
     const secret = process.env.JWT_SECRET || 'your_jwt_secret_key_here';
-    jwt.sign(secret, { role: 'admin', issuedAt: new Date() }, 
+    jwt.sign({ role: 'admin', issuedAt: new Date() }, secret,
       { algorithm: 'HS256' }, (err, token) => {
       if (err) {
         return res.status(500).json({ error: 'Unable to generate token' });

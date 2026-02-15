@@ -53,7 +53,7 @@
 - **Node.js 18+** - JavaScript runtime
 - **Express.js 4.18** - Web framework
 - **Multer 1.4** - File upload handling
-- **JWT (json-web-token)** - Authentication
+- **JWT (jsonwebtoken)** - Authentication
 - **CORS** - Cross-origin requests
 - **dotenv 16.3** - Environment configuration
 

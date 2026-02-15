@@ -1,4 +1,4 @@
-import jwt from 'json-web-token';
+import jwt from 'jsonwebtoken';
 
 export function verifyAdminToken(req, res, next) {
   const token = req.headers.authorization?.split(' ')[1];
@@ -8,7 +8,7 @@ export function verifyAdminToken(req, res, next) {
   }
 
   try {
-    jwt.verify(process.env.JWT_SECRET || 'your_jwt_secret_key_here', token, (err, data) => {
+    jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret_key_here', (err, data) => {
       if (err) {
         return res.status(401).json({ error: 'Invalid token' });
       }
@@ -28,7 +28,7 @@ export function verifyToken(req, res, next) {
   }
 
   try {
-    jwt.verify(process.env.JWT_SECRET || 'your_jwt_secret_key_here', token, (err, data) => {
+    jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret_key_here', (err, data) => {
       if (err) {
         return res.status(401).json({ error: 'Invalid token' });
       }
