@@ -27,7 +27,7 @@ sudo apt update && sudo apt upgrade -y
 
 ### 2. Install Node.js & Tools
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt install -y nodejs nginx git
 sudo npm install -g pm2
 ```
