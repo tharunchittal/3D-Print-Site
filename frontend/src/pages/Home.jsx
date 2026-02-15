@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 function Home() {
   const [file, setFile] = useState(null);
@@ -35,7 +36,7 @@ function Home() {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/files/upload',
+        `${API_BASE_URL}/api/files/upload`,
         formData,
         {
           headers: {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 function Dashboard({ token, onLogout }) {
   const [files, setFiles] = useState([]);
@@ -23,8 +24,8 @@ function Dashboard({ token, onLogout }) {
   const fetchData = async () => {
     try {
       const [filesRes, statsRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/admin/files', { headers }),
-        axios.get('http://localhost:5000/api/admin/stats', { headers }),
+        axios.get(`${API_BASE_URL}/api/admin/files`, { headers }),
+        axios.get(`${API_BASE_URL}/api/admin/stats`, { headers }),
       ]);
 
       setFiles(filesRes.data);
@@ -46,7 +47,7 @@ function Dashboard({ token, onLogout }) {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/admin/files/${fileId}/price`,
+        `${API_BASE_URL}/api/admin/files/${fileId}/price`,
         { price: parseFloat(price) },
         { headers }
       );
@@ -66,7 +67,7 @@ function Dashboard({ token, onLogout }) {
   const handleDeleteFile = async (fileId) => {
     if (window.confirm('Are you sure you want to delete this file?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/files/${fileId}`, {
+        await axios.delete(`${API_BASE_URL}/api/admin/files/${fileId}`, {
           headers,
         });
 
@@ -80,7 +81,7 @@ function Dashboard({ token, onLogout }) {
   const handleUpdatePayment = async (fileId, paymentStatus) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/admin/files/${fileId}/payment`,
+        `${API_BASE_URL}/api/admin/files/${fileId}/payment`,
         { paymentStatus },
         { headers }
       );
@@ -96,7 +97,7 @@ function Dashboard({ token, onLogout }) {
   const handleDownload = async (fileId, originalName) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/files/download/${fileId}`,
+        `${API_BASE_URL}/api/files/download/${fileId}`,
         {
           responseType: 'blob',
           headers,
